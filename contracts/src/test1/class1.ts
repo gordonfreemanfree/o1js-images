@@ -50,13 +50,3 @@ class ImageClass {
     }
   }
 }
-
-// Jimp.read = function (...args: any[]) {
-//   return new Promise((resolve, reject) => {
-//     // eslint-disable-next-line no-new
-//     new Jimp(...args, (err: any, image: any) => {
-//       if (err) reject(err);
-//       else resolve(image);
-//     });
-//   });
-// };
