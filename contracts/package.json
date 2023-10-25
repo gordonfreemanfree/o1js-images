@@ -46,5 +46,8 @@
   },
   "peerDependencies": {
     "o1js": "0.13.*"
+  },
+  "dependencies": {
+    "canvas": "^2.11.2"
   }
 }
