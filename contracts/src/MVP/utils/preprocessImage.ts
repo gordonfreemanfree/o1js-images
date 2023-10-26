@@ -4,7 +4,7 @@ import { Field } from 'o1js';
 // Input:         x - Rank 1 Tensor of type number
 // Output:        y - Rank 1 Tensor of type Field
 export function num2Field_t1(x: Array<number>): Array<Field> {
-  let y = [];
+  let y: any = [];
   x.forEach((value, index) => (y[index] = num2Field(value)));
   return y;
 }
