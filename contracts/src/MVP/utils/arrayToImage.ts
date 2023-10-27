@@ -1,29 +1,30 @@
 import { createCanvas } from 'canvas';
 import fs from 'fs';
-import { imageData, dimensions } from './pixelData.js';
-// Define the imageData structure
 
-console.log(imageData);
+export default function arrayToPNG(
+  pixelArray: number[] | Uint32Array,
+  width: number,
+  height: number,
+  name: string
+) {
+  // Create a canvas with the specified dimensions
+  const canvas = createCanvas(width, height);
+  const ctx = canvas.getContext('2d');
 
-// Extract dimensions and pixel data
-const { width, height } = dimensions;
-const pixelData = imageData;
+  // Create an ImageData object from the pixel data
+  const imgData = ctx.createImageData(width, height);
+  for (let i = 0; i < pixelArray.length; i++) {
+    imgData.data[i] = Number(pixelArray[i]);
 
-// Create a canvas with the specified dimensions
-const canvas = createCanvas(width, height);
-const ctx = canvas.getContext('2d');
+    // console.log('imgData.data[i]', imgData.data[i]);
+  }
 
-// Create an ImageData object from the pixel data
-const imgData = ctx.createImageData(width, height);
-for (let i = 0; i < pixelData.length; i++) {
-  imgData.data[i] = pixelData[i];
+  // Put the image data on the canvas
+  ctx.putImageData(imgData, 0, 0);
+
+  // Save the canvas content as an image
+  const buffer = canvas.toBuffer('image/png');
+  fs.writeFileSync(name + '.png', buffer);
+
+  console.log('Image saved as' + ' ' + name + '.png');
 }
-
-// Put the image data on the canvas
-ctx.putImageData(imgData, 0, 0);
-
-// Save the canvas content as an image
-const buffer = canvas.toBuffer('image/jpeg');
-fs.writeFileSync('output.jpg', buffer);
-
-console.log('Image saved as output.jpg');
