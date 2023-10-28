@@ -1,4 +1,4 @@
-import { Field, Struct, Int64, UInt32 } from 'o1js';
+import { Field, Struct, Int64, UInt32, Provable } from 'o1js';
 
 export class ImageSize64x64 extends Struct({
   _width: Field,
@@ -7,12 +7,12 @@ export class ImageSize64x64 extends Struct({
 }) {
   constructor(_bitmap: number[]) {
     super({
-      _width: new Field(64),
-      _height: new Field(64),
+      _width: Field.from(64),
+      _height: Field.from(64),
       _bitmap,
     });
     this._bitmap = this.num2UInt32_t1(_bitmap);
-    this._width = new Field(64);
+    this._width = Field(64);
     this._height = new Field(64);
   }
   num2UInt32_t2(x: Array<number>[]): Array<UInt32>[] {
@@ -31,7 +31,7 @@ export class ImageSize64x64 extends Struct({
   }
 
   public invert(): ImageSize64x64 {
-    const invertedBitmap = new Uint32Array(this._bitmap.length);
+    const invertedBitmap = new Uint32Array(4096);
     for (let i = 0, j = 0; i < this._bitmap.length; i += 4, j += 4) {
       // Invert the R, G, and B channels
       invertedBitmap[j] = 255 - this._bitmap[i]; // R
@@ -40,6 +40,7 @@ export class ImageSize64x64 extends Struct({
 
       // Leave the A channel untouched
       invertedBitmap[j + 3] = this._bitmap[i + 3]; // A
+      Provable.log(invertedBitmap[j]);
     }
     return new ImageSize64x64(Array.from(invertedBitmap));
   }
