@@ -17,7 +17,8 @@
     "declaration": true,
     "sourceMap": true,
     "noFallthroughCasesInSwitch": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true // added this to resolve json imports
   },
-  "include": ["./src"]
+  "include": ["./src", "assets/json.d.ts"]
 }
