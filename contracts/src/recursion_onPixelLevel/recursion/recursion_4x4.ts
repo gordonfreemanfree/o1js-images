@@ -12,22 +12,22 @@ const pixelData = [
   [255, 0, 0, 255],
   [0, 255, 0, 255],
   [0, 0, 255, 255],
-  [255, 255, 0, 255],
-  [255, 0, 0, 255],
-  [0, 255, 0, 255],
-  [0, 0, 255, 255],
-  [255, 255, 0, 255],
+  // [255, 255, 0, 255],
+  // [255, 0, 0, 255],
+  // [0, 255, 0, 255],
+  // [0, 0, 255, 255],
+  // [255, 255, 0, 255],
 ];
 
 const invertedPixelData = [
   [0, 255, 255, 255], //
   [255, 0, 255, 255], //
   [255, 255, 0, 255], //
-  [0, 0, 255, 255], //
-  [0, 255, 255, 255], //
-  [255, 0, 255, 255], //
-  [255, 255, 0, 255], //
-  [0, 0, 255, 255], //
+  // [0, 0, 255, 255], //
+  // [0, 255, 255, 255], //
+  // [255, 0, 255, 255], //
+  // [255, 255, 0, 255], //
+  // [0, 0, 255, 255], //
 ];
 
 const RecursionProofSystem = Experimental.ZkProgram({
@@ -80,7 +80,7 @@ console.timeEnd('Running Naive Proof System init');
 
 console.time('Running Naive Proof System update');
 let last_proof_n = p1_n;
-for (let i = 0; i < 8; i++) {
+for (let i = 0; i < 3; i++) {
   Provable.log(`pixelData[${i}] in loop:`, pixelData[i]);
   Provable.log('last proof public Input:', last_proof_n.publicInput);
 
@@ -104,3 +104,5 @@ for (let i = 0; i < n.length; i++) {
   );
 }
 last_proof_n.verify();
+console.log('publicOutput', last_proof_n.publicOutput);
+console.log('publicInput is', last_proof_n.publicInput);
