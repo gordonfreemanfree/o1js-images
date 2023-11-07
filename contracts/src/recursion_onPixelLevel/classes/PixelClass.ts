@@ -1,4 +1,4 @@
-import { Field, Struct, Provable } from 'o1js';
+import { Field, Struct, Provable, Circuit, Bool } from 'o1js';
 
 export class PixelClass extends Struct({
   pixelArray: Provable.Array(Field, 4),
@@ -21,5 +21,31 @@ export class PixelClass extends Struct({
     return new PixelClass({
       pixelArray: invertedPixelArray,
     });
+  }
+  public blackOutPixels(mask: Field): PixelClass {
+    let blackedOutPixelArray: Field[] = new Array<Field>(4);
+    let bool = mask.equals(0);
+
+    blackedOutPixelArray[0] = Provable.if(
+      bool,
+      this.pixelArray[0],
+      Field.from(255)
+    );
+    blackedOutPixelArray[1] = Provable.if(
+      bool,
+      this.pixelArray[1],
+      Field.from(255)
+    );
+    blackedOutPixelArray[2] = Provable.if(
+      bool,
+      this.pixelArray[2],
+      Field.from(255)
+    );
+    blackedOutPixelArray[3] = Provable.if(
+      bool,
+      Field.from(255),
+      Field.from(255)
+    );
+    return new PixelClass({ pixelArray: blackedOutPixelArray });
   }
 }

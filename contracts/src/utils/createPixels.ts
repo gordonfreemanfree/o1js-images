@@ -1,33 +1,3 @@
-// // file to create an 2x2 png image
-
-// import { createCanvas } from 'canvas';
-// import { writeFileSync } from 'fs';
-
-// function generateFourPixelPNG(): Buffer {
-//   // Create a 2x2 canvas to represent our 4 pixels
-//   const canvas = createCanvas(2, 2);
-//   const ctx = canvas.getContext('2d');
-
-//   // Set the colors of the 4 pixels
-//   ctx.fillStyle = '#FF0000'; // Red
-//   ctx.fillRect(0, 0, 1, 1);
-
-//   ctx.fillStyle = '#00FF00'; // Green
-//   ctx.fillRect(1, 0, 1, 1);
-
-//   ctx.fillStyle = '#0000FF'; // Blue
-//   ctx.fillRect(0, 1, 1, 1);
-
-//   ctx.fillStyle = '#FFFF00'; // Yellow
-//   ctx.fillRect(1, 1, 1, 1);
-
-//   // Convert the canvas to a PNG buffer
-//   return canvas.toBuffer('image/png');
-// }
-
-// // Usage
-// const pngBuffer = generateFourPixelPNG();
-// writeFileSync('test2x2.png', pngBuffer);
 import { createCanvas } from 'canvas';
 import { writeFileSync } from 'fs';
 

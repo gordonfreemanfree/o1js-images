@@ -4,12 +4,13 @@ import React, { useState, useRef, useEffect, useContext } from 'react'
 
 import AppContext from '../components/appContext.js'
 import randomImage100x100 from '../../public/assets/randomImage100x100.png'
+import funnyMina from '../../public/assets/funny_mina.png'
 import NavBar from '../components/NavBar'
 function DrawWithBackgroundImage() {
   const context = useContext(AppContext)
 
   const [imageState, setImageState] = React.useState(
-    context.imageContext ? context.imageContext : randomImage100x100,
+    context.imageContext ? context.imageContext : funnyMina,
     // randomImage100x100,
   )
 
