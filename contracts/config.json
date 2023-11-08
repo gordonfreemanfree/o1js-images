@@ -1,4 +1,13 @@
 {
   "version": 1,
-  "deployAliases": {}
+  "deployAliases": {
+    "imagepoc": {
+      "url": "https://proxy.berkeley.minaexplorer.com/graphql",
+      "keyPath": "keys/imagepoc.json",
+      "feepayerKeyPath": "/Users/gordon/.cache/zkapp-cli/keys/account1.json",
+      "feepayerAlias": "account1",
+      "fee": ".1",
+      "smartContract": "BlackMask"
+    }
+  }
 }
