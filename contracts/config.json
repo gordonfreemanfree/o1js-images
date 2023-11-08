@@ -8,6 +8,14 @@
       "feepayerAlias": "account1",
       "fee": ".1",
       "smartContract": "BlackMask"
+    },
+    "testadd": {
+      "url": "https://proxy.berkeley.minaexplorer.com/graphql",
+      "keyPath": "keys/testadd.json",
+      "feepayerKeyPath": "/Users/gordon/.cache/zkapp-cli/keys/testadd.json",
+      "feepayerAlias": "testadd",
+      "fee": ".1",
+      "smartContract": "Add"
     }
   }
 }

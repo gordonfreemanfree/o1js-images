@@ -13,9 +13,9 @@
  * Run with node:     `$ node build/src/interact.js <deployAlias>`.
  */
 import fs from 'fs/promises';
-import { Mina, PrivateKey } from 'o1js';
+import { AccountUpdate, Mina, PrivateKey } from 'o1js';
 import { BlackMask } from './BlackMask.js';
-
+import { RecursionProofSystem } from './recursion_final/recursion/recursion.js';
 // check command line arg
 let deployAlias = process.argv[2];
 if (!deployAlias)
@@ -60,41 +60,96 @@ let feepayerAddress = feepayerKey.toPublicKey();
 let zkAppAddress = zkAppKey.toPublicKey();
 let zkApp = new BlackMask(zkAppAddress);
 
-let sentTx;
-// compile the contract to create prover keys
-console.log('compile the contract...');
-await BlackMask.compile();
-try {
-  // call update() and send transaction
-  console.log('build transaction and create proof...');
-  let tx = await Mina.transaction({ sender: feepayerAddress, fee }, () => {
-    // zkApp.blackMask();
-  });
-  await tx.prove();
-  console.log('send transaction...');
-  sentTx = await tx.sign([feepayerKey]).send();
-} catch (err) {
-  console.log(err);
-}
-if (sentTx?.hash() !== undefined) {
-  console.log(`
-Success! Update transaction sent.
-
-Your smart contract state will be updated
-as soon as the transaction is included in a block:
-${getTxnUrl(config.url, sentTx.hash())}
-`);
-}
-
-function getTxnUrl(graphQlUrl: string, txnHash: string | undefined) {
-  const txnBroadcastServiceName = new URL(graphQlUrl).hostname
-    .split('.')
-    .filter((item) => item === 'minascan' || item === 'minaexplorer')?.[0];
-  const networkName = new URL(graphQlUrl).hostname
-    .split('.')
-    .filter((item) => item === 'berkeley' || item === 'testworld')?.[0];
-  if (txnBroadcastServiceName && networkName) {
-    return `https://minascan.io/${networkName}/tx/${txnHash}?type=zk-tx`;
+async function berkeleyDeploy() {
+  console.log('calling faucet...');
+  try {
+    await Mina.faucet(feepayerAddress);
+  } catch (e) {
+    console.log('error calling faucet', e);
   }
-  return `Transaction hash: ${txnHash}`;
+  console.log('waiting for account to exist...');
+  // try {
+  //   // await loopUntilAccountExists({
+  //   //   account: feepayerAddress,
+  //   //   eachTimeNotExist: () =>
+  //   //     console.log(
+  //   //       'waiting for feepayerAddress account to be funded...',
+  //   //       // getFriendlyDateTime()
+  //   //     ),
+  //   //   isZkAppAccount: false,
+  //   });
+  // } catch (e) {
+  //   console.log('error waiting for feepayerAddress to exist', e);
+  // }
+  console.log('compiling...');
+  let { verificationKey: recursionVerificationKey } =
+    await RecursionProofSystem.compile();
+  let { verificationKey: zkAppVerificationKey } = await BlackMask.compile();
+  // await saveVerificationKey(
+  //   zkAppVerificationKey.hash,
+  //   zkAppVerificationKey.data,
+  //   'action',
+  //   zkAppAddress,
+  //   zkAppKey
+  // );
+  console.log('generating deploy transaction');
+  const txn = await Mina.transaction(
+    { sender: feepayerAddress, fee: 1.1e9 },
+    () => {
+      AccountUpdate.fundNewAccount(feepayerAddress);
+      zkApp.deploy({
+        verificationKey: zkAppVerificationKey,
+        zkappKey: zkAppKey,
+      });
+    }
+  );
+  console.log('generating proof');
+  await txn.prove();
+
+  console.log('signing transaction');
+  txn.sign([feepayerKey, zkAppKey]);
+  let response = await txn.send();
+  console.log('response from deploy txn', response);
+  console.log('generated deploy txn for zkApp', zkAppAddress.toBase58());
+  return zkAppVerificationKey;
 }
+
+berkeleyDeploy();
+// let sentTx;
+// // compile the contract to create prover keys
+// console.log('compile the contract...');
+// await BlackMask.compile();
+// try {
+//   // call update() and send transaction
+//   console.log('build transaction and create proof...');
+//   let tx = await Mina.transaction({ sender: feepayerAddress, fee }, () => {
+//     // zkApp.blackMask();
+//   });
+//   await tx.prove();
+//   console.log('send transaction...');
+//   sentTx = await tx.sign([feepayerKey]).send();
+// } catch (err) {
+//   console.log(err);
+// }
+// if (sentTx?.hash() !== undefined) {
+//   console.log(`
+// Success! Update transaction sent.
+
+// Your smart contract state will be updated
+// as soon as the transaction is included in a block:
+// ${getTxnUrl(config.url, sentTx.hash())}
+// `);
+// }
+
+// function getTxnUrl(graphQlUrl: string, txnHash: string | undefined) {
+//   const txnBroadcastServiceName = new URL(graphQlUrl).hostname
+//     .split('.')
+//     .filter((item) => item === 'minascan' || item === 'minaexplorer')?.[0];
+//   const networkName = new URL(graphQlUrl).hostname
+//     .split('.')
+//     .filter((item) => item === 'berkeley' || item === 'testworld')?.[0];
+//   if (txnBroadcastServiceName && networkName) {
+//     return `https://minascan.io/${networkName}/tx/${txnHash}?type=zk-tx`;
+//   }
+//   return `Transaction hash: ${txnHash}`;
+// }

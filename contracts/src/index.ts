@@ -1,3 +1,3 @@
 import { BlackMask } from './BlackMask.js';
-
-export { BlackMask };
+import { Add } from './Add.js';
+export { BlackMask, Add };
