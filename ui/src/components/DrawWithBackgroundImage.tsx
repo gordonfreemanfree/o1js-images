@@ -1,7 +1,13 @@
-import React, { useState, useRef, useEffect, ChangeEvent } from 'react'
+import React, { useState, useRef, useEffect, ChangeEvent, FC } from 'react'
 import funnyMina from '../../public/assets/funny_mina.png'
+import { SetupStateType } from '@/components/types'
 
-function DrawWithBackgroundImage() {
+interface DrawWithBackgroundImage {
+  state: SetupStateType
+  setState: React.Dispatch<React.SetStateAction<SetupStateType>>
+}
+
+const DrawWithBackgroundImage: FC<DrawWithBackgroundImage> = () => {
   const [imageState, setImageState] = useState(funnyMina.src)
 
   // const [imageState, setImageState] = useState(funnyMina)

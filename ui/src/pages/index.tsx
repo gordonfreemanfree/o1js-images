@@ -7,7 +7,6 @@ import DomainModelExplainer from '../components/DomainModelExplainer'
 import DynamicBG from '../components/DynamicBG'
 import ImageAuthProcessVisualizer from '../components/ImageAuthProcessVisualizer'
 import ImageAuthInfoComponent from '../components/ImageAuthInfoComponent'
-import DrawWithBackgroundImage from '../components/DrawWithBackgroundImage'
 
 let transactionFee = 0.1
 
@@ -284,7 +283,7 @@ export default function Home() {
       <DomainModelExplainer />
       <ImageAuthProcessVisualizer />
       <ImageAuthInfoComponent />
-      <DrawWithBackgroundImage />
+      {/* <DrawWithBackgroundImage /> */}
     </DynamicBG>
   )
 }
