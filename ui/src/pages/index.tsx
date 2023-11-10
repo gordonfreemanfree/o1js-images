@@ -7,7 +7,7 @@ import DomainModelExplainer from '../components/DomainModelExplainer'
 import DynamicBG from '../components/DynamicBG'
 import ImageAuthProcessVisualizer from '../components/ImageAuthProcessVisualizer'
 import ImageAuthInfoComponent from '../components/ImageAuthInfoComponent'
-
+import ExplainerComponent from '../components/ExplainerComponent'
 let transactionFee = 0.1
 
 export default function Home() {
@@ -280,6 +280,8 @@ export default function Home() {
       <div className={styles.main} style={{ padding: 0 }}>
         <div className=" text-black">zk IMAGE</div>
       </div>
+      <ExplainerComponent />
+
       <DomainModelExplainer />
       <ImageAuthProcessVisualizer />
       <ImageAuthInfoComponent />
