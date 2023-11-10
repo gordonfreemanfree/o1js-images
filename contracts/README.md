@@ -15,8 +15,8 @@ npm run test
 npm run testw # watch mode
 ```
 
-![e2e Test](/testProof/e2eTest.png)
-![unit test](/testProof/unitTest.png)
+![e2e Test Image](./src/tests/testProof/e2eTest.png)
+![unit test](./src/tests/testProof/unitTest.png)
 
 ## How to run coverage
 
