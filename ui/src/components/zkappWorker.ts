@@ -5,11 +5,16 @@ type Transaction = Awaited<ReturnType<typeof Mina.transaction>>
 // ---------------------------------------------------------------------------------------
 
 import type { BlackMask } from '../../../contracts/src/BlackMask'
-
+import type { RecursionProofSystem } from '../../../contracts/src/recursion/recursion'
 const state = {
   BlackMask: null as null | typeof BlackMask,
-  recursionProofSystem: null as null | any,
   zkapp: null as null | BlackMask,
+  transaction: null as null | Transaction,
+}
+
+const recursionState = {
+  RecursionProofSystem: null as null | typeof RecursionProofSystem,
+  zkapp: null as null | typeof RecursionProofSystem,
   transaction: null as null | Transaction,
 }
 
@@ -28,13 +33,17 @@ const functions = {
       '../../../contracts/build/src/BlackMask.js'
     )
     const { RecursionProofSystem } = await import(
-      '../../../contracts/build/src/recursion_final/recursion/recursion.js'
+      '../../../contracts/build/src/recursion/recursion.js'
     )
-    state.recursionProofSystem = RecursionProofSystem
+    recursionState.RecursionProofSystem = RecursionProofSystem
     state.BlackMask = BlackMask
   },
+  compileRecursion: async (args: {}) => {
+    await recursionState.RecursionProofSystem!.compile()
+  },
+
   compileContract: async (args: {}) => {
-    await state.recursionProofSystem!.compile()
+    // await state.recursionProofSystem!.compile()
     await state.BlackMask!.compile()
   },
   fetchAccount: async (args: { publicKey58: string }) => {
@@ -46,7 +55,7 @@ const functions = {
     state.zkapp = new state.BlackMask!(publicKey)
   },
   getNum: async (args: {}) => {
-    const currentNum = await state.zkapp!.x.get()
+    const currentNum = await state.zkapp!.hash.get()
     return JSON.stringify(currentNum.toJSON())
   },
   // createUpdateTransaction: async (args: {}) => {

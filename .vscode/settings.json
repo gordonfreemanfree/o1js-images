@@ -1,0 +1,3 @@
+{
+  "files.maxMemoryForLargeFilesMB": 4096 // for example, to set it to 4GB
+}

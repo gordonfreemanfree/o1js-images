@@ -2,52 +2,79 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-@font-face {
-  font-family: 'ABC Monument Grotesk';
-  font-style: normal;
-  font-weight: normal;
-  src: url('/assets/fonts/ABCMonumentGrotesk-Regular.woff2') format('woff2'),
-    url('/assets/fonts/ABCMonumentGrotesk-Regular.woff') format('woff');
-}
-
-@font-face {
-  font-family: 'ABC Monument Grotesk Light';
-  font-style: normal;
-  src: url('/assets/fonts/ABCMonumentGrotesk-Light.woff2') format('woff2'),
-    url('/assets/fonts/ABCMonumentGrotesk-Light.woff') format('woff');
-}
-
-@font-face {
-  font-family: 'ABC Monument Grotesk Bold';
-  font-style: normal;
-  font-weight: bold;
-  src: url('/assets/fonts/ABCMonumentGrotesk-Bold.woff2') format('woff2'),
-    url('/assets/fonts/ABCMonumentGrotesk-Bold.woff') format('woff');
-}
-
 :root {
-  --max-width: 1100px;
-  --border-radius: 12px;
-  --font-monument: 'ABC Monument Grotesk', sans-serif;
-  --font-monument-bold: 'ABC Monument Grotesk Bold', sans-serif;
-  --font-monument-light: 'ABC Monument Grotesk Light', sans-serif;
-  --foreground-rgb: 0, 0, 0;
+  --primary-blue: #2a4365; /* Dark blue for headings and important elements */
+  --secondary-blue: #63b3ed; /* Lighter blue for accents */
+  --background-light: #edf2f7; /* Light background for contrast */
+  --text-color: #2d3748; /* Dark color for text for readability */
+  --border-color: #cbd5e0; /* Soft border color */
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+.container {
+  color: var(--text-color);
 }
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-  font-family: 'ABC Monument Grotesk';
+/* Headings */
+h1,
+h2 {
+  color: var(--primary-blue);
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+/* Boxes */
+.border {
+  border: 1px solid var(--border-color);
+  background-color: var(--background-light);
+}
+
+.rounded-lg {
+  border-radius: 10px;
+}
+
+.shadow-lg {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Arrow styles */
+.arrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem; /* Equivalent to text-2xl in Tailwind */
+  height: 50px; /* Adjust the height as needed */
+}
+
+.arrow::before {
+  content: '';
+  display: block;
+  border-left: 2px solid black;
+  border-bottom: 2px solid black;
+  width: 10px;
+  height: 10px;
+  transform: rotate(-45deg);
+  margin-bottom: 5px; /* Space between arrow and text or box */
+}
+
+/* Box styles for transformation methods */
+.transformation-box {
+  border: 2px solid #e5e7eb; /* Tailwind's gray-300 */
+  border-radius: 0.5rem; /* Tailwind's rounded-lg */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06); /* Tailwind's shadow */
+  margin: 1rem; /* Space around boxes */
+  padding: 1rem; /* Padding inside boxes */
+  background-color: #fff; /* White background for readability */
+}
+
+/* Flex container for transformation method boxes to be in the same line */
+.transformation-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Individual transformation method box style */
+.method-box {
+  flex: 1; /* Each box will take up equal space */
+  min-width: 250px; /* Minimum width for each box */
+  margin: 0.5rem; /* Space between boxes */
+  max-width: calc(50% - 1rem); /* Maximum width for mobile responsiveness */
 }

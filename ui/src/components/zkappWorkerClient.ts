@@ -16,6 +16,9 @@ export default class ZkappWorkerClient {
   loadContract() {
     return this._call('loadContract', {})
   }
+  compileRecursion() {
+    return this._call('compileRecursion', {})
+  }
 
   compileContract() {
     return this._call('compileContract', {})

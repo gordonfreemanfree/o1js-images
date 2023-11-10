@@ -1,20 +1,11 @@
-import React, { useState, useRef, useEffect, useContext } from 'react'
-
-// import { useRouter } from 'next/router'
-
-import AppContext from '../components/appContext.js'
-import randomImage100x100 from '../../public/assets/randomImage100x100.png'
+import React, { useState, useRef, useEffect, ChangeEvent } from 'react'
 import funnyMina from '../../public/assets/funny_mina.png'
-import NavBar from '../components/NavBar'
+
 function DrawWithBackgroundImage() {
-  const context = useContext(AppContext)
+  const [imageState, setImageState] = useState(funnyMina.src)
 
-  const [imageState, setImageState] = React.useState(
-    context.imageContext ? context.imageContext : funnyMina,
-    // randomImage100x100,
-  )
-
-  const [uploading, setUploading] = React.useState(false)
+  // const [imageState, setImageState] = useState(funnyMina)
+  const [uploading, setUploading] = useState(false)
 
   const backgroundCanvasRef = useRef<HTMLCanvasElement>(null)
   const drawingCanvasRef = useRef<HTMLCanvasElement>(null)
@@ -26,36 +17,38 @@ function DrawWithBackgroundImage() {
   const [penSize, setPenSize] = useState(50)
   const [pixels, setPixels] = useState<Uint8ClampedArray | null>(null)
   const [pixels64x64, setPixels64x64] = useState<Uint8ClampedArray | null>(null)
-  // const [generatedImageNames, setGeneratedImageNames] = useState([])
-  // const [completedState, setCompletedState] = useState(false)
 
-  // reload page if set context.imageContext changes
-  useEffect(() => {
-    if (context.imageContext) {
-      setImageState(context.imageContext)
-    }
-  }, [context.imageContext])
-
-  async function handleSetImageStateUpload(
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) {
-    if (e.target.files) {
+  const handleSetImageStateUpload = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
       setUploading(true)
-      console.log('e', e)
       const file = e.target.files[0]
-      console.log('file', file)
       const reader = new FileReader()
-      reader.onload = () => {
-        setImageState(reader.result as string)
+      reader.onloadend = () => {
+        if (typeof reader.result === 'string') {
+          setImageState(reader.result)
+        } else {
+          console.error('FileReader did not return a string')
+        }
         setUploading(false)
       }
       reader.onerror = () => {
-        console.error('Error reading file')
+        console.error('An error occurred reading the file')
         setUploading(false)
       }
       reader.readAsDataURL(file)
     }
   }
+
+  useEffect(() => {
+    const canvas = backgroundCanvasRef.current
+    if (canvas) {
+      const ctx = canvas.getContext('2d')
+      const img = new Image()
+      // Use src for StaticImageData, or the string directly if it's a data URL.
+      img.src = typeof imageState === 'string' ? imageState : imageState
+      // ... rest of your drawing code
+    }
+  }, [imageState])
 
   useEffect(() => {
     const canvas = backgroundCanvasRef.current
@@ -65,9 +58,7 @@ function DrawWithBackgroundImage() {
 
       // Check if imageState is an object with a src property, otherwise use it directly
       const src =
-        typeof imageState === 'object' && imageState.src
-          ? imageState.src
-          : imageState
+        typeof imageState === 'object' && imageState ? imageState : imageState
 
       img.src = src
 
@@ -227,28 +218,31 @@ function DrawWithBackgroundImage() {
       }
     }
   }
+  if (!imageState) {
+    return <div>Loading...</div> // Or some other loading state
+  }
 
   return (
-    <div className="bg-black">
-      <NavBar />
-      <div className="flex flex-col items-center justify-center">
-        <p className="bg-primary text-center text-2xl  max-w-lg rounded-xl my-5">
-          Upload your own image and erase what you want to replace. The uploaded
-          image has to be of size 512x512. Do not forget to save the mask by
-          clicking the save button.
+    <div className="container mx-auto p-5">
+      <div className="flex flex-col items-center justify-center my-5">
+        <h1 className="text-3xl font-bold text-primary-blue">
+          DEMO - erase the Mina sign{' '}
+        </h1>
+        <p className="text-center text-2xl text-primary-blue max-w-lg rounded-xl my-5 p-4 shadow-lg">
+          At the moment the zkProgram is not compiling in browser. Therefore it
+          is just a demo.{' '}
         </p>
       </div>
-      <div className="relative flex bg-black align-middle justify-center rounded-xl p-5">
+      <div className="relative flex align-middle justify-center my-5">
         <canvas
-          // align the canvas to the center of the page
-          className="border border-black "
+          className="border border-border-color shadow-lg rounded-lg"
           ref={backgroundCanvasRef}
           width={512}
           height={512}
         />
 
         <canvas
-          className="border absolute border-black opacity-80"
+          className="border absolute opacity-80 rounded-lg"
           ref={drawingCanvasRef}
           width={512}
           height={512}
@@ -258,7 +252,7 @@ function DrawWithBackgroundImage() {
         />
       </div>
 
-      <div className="bg-black flex align-middle justify-center my-5 rounded-xl">
+      <div className=" flex align-middle justify-center my-5 rounded-xl">
         <button
           onClick={handleSaveMask}
           className="bg-tertiary font-bold rounded-full text-white text-center shadow-md p-4 hover:bg-sky-500 hover:shadow-lg focus:bg-sky-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-sky-700 active:shadow-lg transition duration-150 ease-in-out"
@@ -279,49 +273,7 @@ function DrawWithBackgroundImage() {
         >
           Clear
         </button>
-        <input
-          style={{
-            visibility: 'hidden',
-            position: 'absolute',
-          }}
-          type="file"
-          id="single"
-          accept="image/*"
-          onChange={handleSetImageStateUpload}
-          disabled={uploading}
-        />
-        <label
-          className="bg-tertiary font-bold rounded-full text-white text-center shadow-md p-4 hover:bg-sky-500 hover:shadow-lg focus:bg-sky-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-sky-700 active:shadow-lg transition duration-150 ease-in-out"
-          htmlFor="single"
-        >
-          {uploading ? 'Uploading ...' : 'Upload'}
-        </label>
       </div>
-      <div className="relative flex bg-black align-middle justify-center rounded-xl p-5">
-        <canvas
-          // align the canvas to the center of the page
-          className="border border-black "
-          ref={previewCanvasRef}
-          width={64}
-          height={64}
-        />
-
-        <canvas
-          className="border absolute border-white opacity-80"
-          ref={previewCanvasRef}
-          width={64}
-          height={64}
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-        />
-      </div>
-      <button
-        onClick={pixelTo64x64}
-        className="bg-tertiary font-bold rounded-full text-white text-center shadow-md p-4 hover:bg-sky-500 hover:shadow-lg focus:bg-sky-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-sky-700 active:shadow-lg transition duration-150 ease-in-out"
-      >
-        Calculate
-      </button>
     </div>
   )
 }

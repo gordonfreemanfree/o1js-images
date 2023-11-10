@@ -2,14 +2,14 @@ import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 import AppContext from '../components/appContext'
 import { useState } from 'react'
-import './reactCOIServiceWorker'
+import '../components/reactCOIServiceWorker'
 import { Field, PublicKey } from 'o1js'
-import ZkappWorkerClient from '@/pages/zkappWorkerClient'
+import ZkappWorkerClient from '@/components/zkappWorkerClient'
 import { SetupStateType } from '@/components/types'
 import Home from './index'
 import { useEffect } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
-import './reactCOIServiceWorker'
+import '../components/reactCOIServiceWorker'
 // Custom hook for toast notifications
 // function useToast() {
 //   const notify = (message, type = 'info') => {
@@ -161,172 +161,168 @@ export default function App({ Component, pageProps }: AppProps) {
   //   setup()
   // }, [])
 
-  useEffect(() => {
-    const setup = async () => {
-      const zkappWorkerClient = new ZkappWorkerClient()
-      console.log('Loading o1js...')
+  // useEffect(() => {
+  //   const setup = async () => {
+  //     const zkappWorkerClient = new ZkappWorkerClient()
+  //     console.log('Loading o1js...')
 
-      try {
-        await zkappWorkerClient.setActiveInstanceToBerkeley()
-        console.log('set active instance to Berkeley')
-      } catch (error) {
-        console.error('Error setting active instance:', error)
-        return
-      }
+  //     try {
+  //       await zkappWorkerClient.setActiveInstanceToBerkeley()
+  //       console.log('set active instance to Berkeley')
+  //     } catch (error) {
+  //       console.error('Error setting active instance:', error)
+  //       return
+  //     }
 
-      // const mina = window.mina // Make sure 'mina' is properly declared globally or imported
-      const mina = (window as any).mina
-      if (!mina) {
-        setState((prevState) => ({ ...prevState, hasWallet: false }))
-        return
-      }
+  //     // const mina = window.mina // Make sure 'mina' is properly declared globally or imported
+  //     const mina = (window as any).mina
+  //     if (!mina) {
+  //       setState((prevState) => ({ ...prevState, hasWallet: false }))
+  //       return
+  //     }
 
-      try {
-        const publicKeyBase58 = (await mina.requestAccounts())[0]
-        const publicKey = PublicKey.fromBase58(publicKeyBase58)
-        console.log('using key', publicKey.toBase58())
+  //     try {
+  //       const publicKeyBase58 = (await mina.requestAccounts())[0]
+  //       const publicKey = PublicKey.fromBase58(publicKeyBase58)
+  //       console.log('using key', publicKey.toBase58())
 
-        console.log('checking if account exists...')
-        const accountResponse = await zkappWorkerClient.fetchAccount({
-          publicKey,
-        })
-        const accountExists = !accountResponse.error
+  //       console.log('checking if account exists...')
+  //       const accountResponse = await zkappWorkerClient.fetchAccount({
+  //         publicKey,
+  //       })
+  //       const accountExists = !accountResponse.error
 
-        console.log('compiling zkApp')
-        const toastCompiling = toast.loading('Compiling zkApp...')
-        await zkappWorkerClient.compileContract()
-        toast.update(toastCompiling, {
-          render: 'zkApp compiled',
-          type: 'success',
-          isLoading: false,
-          autoClose: 2000,
-        })
+  //       console.log('compiling zkApp')
+  //       const toastCompiling = toast.loading('Compiling zkApp...')
+  //       await zkappWorkerClient.compileContract()
+  //       toast.update(toastCompiling, {
+  //         render: 'zkApp compiled',
+  //         type: 'success',
+  //         isLoading: false,
+  //         autoClose: 2000,
+  //       })
 
-        const zkappPublicKey = PublicKey.fromBase58(
-          'B62qrSgTkaLZAJjcgBp7SH7BXoN4UdgxBwRiBx9mJ34TyivW2MAV3KP',
-        )
-        // await zkappWorkerClient.initZkappInstance(zkappPublicKey) // Assuming this line should be uncommented
+  //       const zkappPublicKey = PublicKey.fromBase58(
+  //         'B62qrSgTkaLZAJjcgBp7SH7BXoN4UdgxBwRiBx9mJ34TyivW2MAV3KP',
+  //       )
+  //       // await zkappWorkerClient.initZkappInstance(zkappPublicKey) // Assuming this line should be uncommented
 
-        console.log('getting zkApp state...')
-        await zkappWorkerClient.fetchAccount({ publicKey: zkappPublicKey })
-        const currentNum = await zkappWorkerClient.getNum()
-        console.log('current state:', currentNum.toString())
+  //       console.log('getting zkApp state...')
+  //       await zkappWorkerClient.fetchAccount({ publicKey: zkappPublicKey })
+  //       const currentNum = await zkappWorkerClient.getNum()
+  //       console.log('current state:', currentNum.toString())
 
-        setState((prevState) => ({
-          ...prevState,
-          zkappWorkerClient,
-          hasWallet: true,
-          hasBeenSetup: true,
-          publicKey,
-          zkappPublicKey,
-          accountExists,
-          currentNum,
-        }))
-      } catch (error) {
-        console.error('An error occurred during setup:', error)
-        // Handle error appropriately, perhaps set an error state property
-      }
-    }
+  //       setState((prevState) => ({
+  //         ...prevState,
+  //         zkappWorkerClient,
+  //         hasWallet: true,
+  //         hasBeenSetup: true,
+  //         publicKey,
+  //         zkappPublicKey,
+  //         accountExists,
+  //         currentNum,
+  //       }))
+  //     } catch (error) {
+  //       console.error('An error occurred during setup:', error)
+  //       // Handle error appropriately, perhaps set an error state property
+  //     }
+  //   }
 
-    setup()
-  }, []) // The empty array ensures this effect runs only once after the initial render
+  //   setup()
+  // }, []) // The empty array ensures this effect runs only once after the initial render
 
-  // -------------------------------------------------------
-  // Wait for account to exist, if it didn't
+  // // -------------------------------------------------------
+  // // Wait for account to exist, if it didn't
 
-  useEffect(() => {
-    ;(async () => {
-      if (state.hasBeenSetup && !state.accountExists) {
-        for (;;) {
-          console.log('checking if account exists...')
-          const res = await state.zkappWorkerClient!.fetchAccount({
-            publicKey: state.publicKey!,
-          })
-          const accountExists = res.error == null
-          if (accountExists) {
-            break
-          }
-          await new Promise((resolve) => setTimeout(resolve, 5000))
-        }
-        setState({ ...state, accountExists: true })
-      }
-    })()
-  }, [state.hasBeenSetup])
+  // useEffect(() => {
+  //   ;(async () => {
+  //     if (state.hasBeenSetup && !state.accountExists) {
+  //       for (;;) {
+  //         console.log('checking if account exists...')
+  //         const res = await state.zkappWorkerClient!.fetchAccount({
+  //           publicKey: state.publicKey!,
+  //         })
+  //         const accountExists = res.error == null
+  //         if (accountExists) {
+  //           break
+  //         }
+  //         await new Promise((resolve) => setTimeout(resolve, 5000))
+  //       }
+  //       setState({ ...state, accountExists: true })
+  //     }
+  //   })()
+  // }, [state.hasBeenSetup])
 
-  // -------------------------------------------------------
-  // Refresh the current state
+  // // -------------------------------------------------------
+  // // Refresh the current state
 
-  const onRefreshCurrentNum = async () => {
-    console.log('getting zkApp state...')
-    await state.zkappWorkerClient!.fetchAccount({
-      publicKey: state.zkappPublicKey!,
-    })
-    const currentNum = await state.zkappWorkerClient!.getNum()
-    console.log('current state:', currentNum.toString())
+  // const onRefreshCurrentNum = async () => {
+  //   console.log('getting zkApp state...')
+  //   await state.zkappWorkerClient!.fetchAccount({
+  //     publicKey: state.zkappPublicKey!,
+  //   })
+  //   const currentNum = await state.zkappWorkerClient!.getNum()
+  //   console.log('current state:', currentNum.toString())
 
-    setState({ ...state, currentNum })
-  }
+  //   setState({ ...state, currentNum })
+  // }
 
-  // -------------------------------------------------------
-  // Create UI elements
+  // // -------------------------------------------------------
+  // // Create UI elements
 
-  let hasWallet
-  if (state.hasWallet != null && !state.hasWallet) {
-    const auroLink = 'https://www.aurowallet.com/'
-    const auroLinkElem = (
-      <a href={auroLink} target="_blank" rel="noreferrer">
-        {' '}
-        [Link]{' '}
-      </a>
-    )
-    hasWallet = (
-      <div>
-        {' '}
-        Could not find a wallet. Install Auro wallet here: {auroLinkElem}
-      </div>
-    )
-  }
+  // let hasWallet
+  // if (state.hasWallet != null && !state.hasWallet) {
+  //   const auroLink = 'https://www.aurowallet.com/'
+  //   const auroLinkElem = (
+  //     <a href={auroLink} target="_blank" rel="noreferrer">
+  //       {' '}
+  //       [Link]{' '}
+  //     </a>
+  //   )
+  //   hasWallet = (
+  //     <div>
+  //       {' '}
+  //       Could not find a wallet. Install Auro wallet here: {auroLinkElem}
+  //     </div>
+  //   )
+  // }
 
-  let setupText = state.hasBeenSetup
-    ? 'SnarkyJS Ready'
-    : 'Setting up SnarkyJS...'
-  let setup = (
-    <div>
-      {' '}
-      {setupText} {hasWallet}
-    </div>
-  )
+  // let setupText = state.hasBeenSetup
+  //   ? 'SnarkyJS Ready'
+  //   : 'Setting up SnarkyJS...'
+  // let setup = (
+  //   <div>
+  //     {' '}
+  //     {setupText} {hasWallet}
+  //   </div>
+  // )
 
-  let accountDoesNotExist
-  if (state.hasBeenSetup && !state.accountExists) {
-    const faucetLink =
-      'https://faucet.minaprotocol.com/?address=' + state.publicKey!.toBase58()
-    accountDoesNotExist = (
-      <div>
-        Account does not exist. Please visit the faucet to fund this account
-        <a href={faucetLink} target="_blank" rel="noreferrer">
-          {' '}
-          [Link]{' '}
-        </a>
-      </div>
-    )
-  }
+  // let accountDoesNotExist
+  // if (state.hasBeenSetup && !state.accountExists) {
+  //   const faucetLink =
+  //     'https://faucet.minaprotocol.com/?address=' + state.publicKey!.toBase58()
+  //   accountDoesNotExist = (
+  //     <div>
+  //       Account does not exist. Please visit the faucet to fund this account
+  //       <a href={faucetLink} target="_blank" rel="noreferrer">
+  //         {' '}
+  //         [Link]{' '}
+  //       </a>
+  //     </div>
+  //   )
+  // }
 
-  let mainContent
-  if (state.hasBeenSetup && state.accountExists) {
-    mainContent = <div>Main Content</div>
-  }
+  // let mainContent
+  // if (state.hasBeenSetup && state.accountExists) {
+  //   mainContent = <div>Main Content</div>
+  // }
 
   return (
     <>
-      <ToastContainer />
-      {/* <AppContext.Provider value={{ imageContext, setImageContext }}>
-        // <Component {...pageProps} state={state} setState={setState} />
-        //{' '}
-      </AppContext.Provider> */}
-      <Home />
-      {accountDoesNotExist}
-      {mainContent}
+      <AppContext.Provider value={{ state, setState }}>
+        <Component {...pageProps} state={state} setState={setState} />
+        <Home />
+      </AppContext.Provider>
     </>
   )
 }

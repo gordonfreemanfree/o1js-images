@@ -2,7 +2,7 @@
 import { Field, PublicKey } from 'o1js'
 import { useEffect, useState, FC } from 'react'
 
-import ZkappWorkerClient from '../pages/zkappWorkerClient'
+import ZkappWorkerClient from './zkappWorkerClient'
 import { SetupStateType } from '@/components/types'
 import { toast, ToastContainer } from 'react-toastify'
 
