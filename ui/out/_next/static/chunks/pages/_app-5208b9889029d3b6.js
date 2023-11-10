@@ -1267,6 +1267,17 @@ function ExplainerComponent() {
     const [clickedPixels, setClickedPixels] = (0,react.useState)({});
     const [allClicked, setAllClicked] = (0,react.useState)(false);
     const [userPrompt, setUserPrompt] = (0,react.useState)("Click to manipulate image");
+    const [showMinaExplanation, setShowMinaExplanation] = (0,react.useState)(false);
+    (0,react.useEffect)(()=>{
+        if (allClicked === "verified") {
+            setTimeout(()=>{
+                setShowMinaExplanation(true);
+            }, 2000) // Show the explanation after the verification
+            ;
+        }
+    }, [
+        allClicked
+    ]);
     (0,react.useEffect)(()=>{
         if (Object.keys(clickedPixels).length === totalPixels && Object.values(clickedPixels).every((val)=>val)) {
             setAllClicked(true);
@@ -1274,14 +1285,14 @@ function ExplainerComponent() {
             setTimeout(()=>{
                 setAllClicked("verified");
                 setUserPrompt("Verified by Mina Blockchain");
-            }, 3000);
+            }, 2000);
         }
     }, [
         clickedPixels
     ]);
     (0,react.useEffect)(()=>{
         if (allClicked === "verified") {
-            setTimeout(resetComponent, 3000) // Reset after 2 seconds
+            setTimeout(resetComponent, 2000) // Reset after 2 seconds
             ;
         }
     }, [
@@ -1303,41 +1314,96 @@ function ExplainerComponent() {
                 [index]: !prevState[index]
             }));
     };
-    return /*#__PURE__*/ (0,jsx_runtime.jsxs)("div", {
-        className: "explainer-container",
+    return /*#__PURE__*/ (0,jsx_runtime.jsxs)(jsx_runtime.Fragment, {
         children: [
-            /*#__PURE__*/ (0,jsx_runtime.jsx)("p", {
-                className: "user-prompt",
-                children: userPrompt
+            /*#__PURE__*/ (0,jsx_runtime.jsx)("h1", {
+                className: "text-center text-black text-9xl",
+                children: "Why Mina"
             }),
             /*#__PURE__*/ (0,jsx_runtime.jsxs)("div", {
-                className: "main-box ".concat(isExpanded ? "expanded" : "", " ").concat(allClicked ? "all-clicked" : ""),
-                onClick: handleBoxClick,
+                className: "explainer-container",
                 children: [
-                    isExpanded && allClicked === true && /*#__PURE__*/ (0,jsx_runtime.jsx)("p", {
-                        className: "recursion-proof",
-                        children: "Recursion Proof"
+                    /*#__PURE__*/ (0,jsx_runtime.jsx)("p", {
+                        className: "user-prompt",
+                        children: userPrompt
                     }),
-                    isExpanded && allClicked === "verified" && /*#__PURE__*/ (0,jsx_runtime.jsxs)("div", {
-                        className: "verified",
+                    /*#__PURE__*/ (0,jsx_runtime.jsxs)("div", {
+                        className: "main-box ".concat(isExpanded ? "expanded" : "", " ").concat(allClicked ? "all-clicked" : ""),
+                        onClick: handleBoxClick,
                         children: [
-                            /*#__PURE__*/ (0,jsx_runtime.jsx)("p", {
-                                children: "Verified by Mina Blockchain"
+                            isExpanded && allClicked === true && /*#__PURE__*/ (0,jsx_runtime.jsx)("p", {
+                                className: "recursion-proof",
+                                children: "Recursion Proof"
                             }),
-                            /*#__PURE__*/ (0,jsx_runtime.jsx)("span", {
-                                className: "arrow"
+                            isExpanded && allClicked === "verified" && /*#__PURE__*/ (0,jsx_runtime.jsxs)("div", {
+                                className: "verified",
+                                children: [
+                                    /*#__PURE__*/ (0,jsx_runtime.jsx)("p", {
+                                        children: "Verified by Mina Blockchain"
+                                    }),
+                                    /*#__PURE__*/ (0,jsx_runtime.jsx)("span", {
+                                        className: "arrow"
+                                    })
+                                ]
+                            }),
+                            isExpanded && !allClicked && /*#__PURE__*/ (0,jsx_runtime.jsx)("div", {
+                                className: "grid-container",
+                                children: [
+                                    ...Array(totalPixels)
+                                ].map((_, index)=>/*#__PURE__*/ (0,jsx_runtime.jsx)("div", {
+                                        className: "small-box ".concat(clickedPixels[index] ? "clicked" : ""),
+                                        onClick: (e)=>handlePixelClick(index, e),
+                                        children: clickedPixels[index] ? "Proof" : "Pixel ".concat(index + 1)
+                                    }, index))
                             })
                         ]
                     }),
-                    isExpanded && !allClicked && /*#__PURE__*/ (0,jsx_runtime.jsx)("div", {
-                        className: "grid-container",
+                    showMinaExplanation && /*#__PURE__*/ (0,jsx_runtime.jsxs)("div", {
+                        className: "mina-explanation",
                         children: [
-                            ...Array(totalPixels)
-                        ].map((_, index)=>/*#__PURE__*/ (0,jsx_runtime.jsx)("div", {
-                                className: "small-box ".concat(clickedPixels[index] ? "clicked" : ""),
-                                onClick: (e)=>handlePixelClick(index, e),
-                                children: clickedPixels[index] ? "Proof" : "Pixel ".concat(index + 1)
-                            }, index))
+                            /*#__PURE__*/ (0,jsx_runtime.jsx)("p", {
+                                children: "Mina is considered an optimal solution for this project due to its unique features:"
+                            }),
+                            /*#__PURE__*/ (0,jsx_runtime.jsxs)("ul", {
+                                children: [
+                                    /*#__PURE__*/ (0,jsx_runtime.jsxs)("li", {
+                                        children: [
+                                            /*#__PURE__*/ (0,jsx_runtime.jsx)("strong", {
+                                                children: "Lightweight Blockchain:"
+                                            }),
+                                            " Mina maintains a constant size blockchain, making it more accessible and efficient. Browser Plugins can easily connect to Mina."
+                                        ]
+                                    }),
+                                    /*#__PURE__*/ (0,jsx_runtime.jsxs)("li", {
+                                        children: [
+                                            /*#__PURE__*/ (0,jsx_runtime.jsx)("strong", {
+                                                children: "Zero-Knowledge Proofs:"
+                                            }),
+                                            " Enables the verification of data without revealing sensitive information and the ability to use recursive proof composition, which crucial for maintaining privacy in zk Images."
+                                        ]
+                                    }),
+                                    /*#__PURE__*/ (0,jsx_runtime.jsxs)("li", {
+                                        children: [
+                                            /*#__PURE__*/ (0,jsx_runtime.jsx)("strong", {
+                                                children: "Decentralization and Security:"
+                                            }),
+                                            " Mina&aposs decentralized nature enhances security, making it resilient to attacks and manipulation."
+                                        ]
+                                    }),
+                                    /*#__PURE__*/ (0,jsx_runtime.jsxs)("li", {
+                                        children: [
+                                            /*#__PURE__*/ (0,jsx_runtime.jsx)("strong", {
+                                                children: "Scalability:"
+                                            }),
+                                            " Its design allows for scalability, handling increased loads without compromising performance."
+                                        ]
+                                    })
+                                ]
+                            }),
+                            /*#__PURE__*/ (0,jsx_runtime.jsx)("p", {
+                                children: "This integration is essential for ensuring the authenticity and integrity of data in our increasingly digital world."
+                            })
+                        ]
                     })
                 ]
             })
