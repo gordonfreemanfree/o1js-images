@@ -965,6 +965,114 @@ h2 {
   margin: 0.5rem; /* Space between boxes */
   max-width: calc(50% - 1rem); /* Maximum width for mobile responsiveness */
 }
+.main-box {
+  width: 200px;
+  height: 200px;
+  background-color: var(--primary-blue);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.main-box.expanded {
+  width: 400px; /* Increase size upon expansion */
+  height: 400px;
+  transition: transform 0.3s ease;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(
+    4,
+    1fr
+  ); /* Adjust number of columns as needed */
+  grid-template-rows: repeat(4, 1fr); /* Adjust number of rows as needed */
+  width: 100%;
+  height: 100%;
+}
+
+.small-box {
+  background-color: var(--secondary-blue);
+  border: 1px solid var(--border-color);
+  /* ... existing styles ... */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.small-box.clicked {
+  border-radius: 50%; /* Makes the box round */
+  background-color: var(--secondary-blue); /* Change color upon click */
+  font-size: 0.8rem; /* Adjust font size as needed */
+}
+.explainer-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Adjust as needed */
+}
+.main-box.all-clicked {
+  transform: scale(2); /* Enlarge to emphasize the 'Recursion Proof' */
+  cursor: default;
+}
+
+.recursion-proof {
+  cursor: pointer;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.verified {
+  text-align: center;
+}
+
+.verified .arrow {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  background-color: green;
+  -webkit-clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+          clip-path: polygon(50% 0%, 0% 100%, 100% 100%); /* Arrow shape */
+  margin-left: 10px;
+}
+
+/* Hide the grid container when all pixels are clicked */
+.main-box.all-clicked .grid-container {
+  display: none;
+}
+.recursion-proof {
+  font-size: 1.2rem;
+  text-align: center;
+  display: block; /* Ensure it's visible */
+}
+.verified {
+  text-align: center;
+  display: block; /* Ensure it's visible */
+}
+.main-box.all-clicked {
+  transform: scale(2); /* Enlarge to emphasize the 'Recursion Proof' */
+  cursor: default;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%; /* Makes the box round */
+}
+.user-prompt {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.5rem; /* Increased size */
+  color: var(--text-color);
+}
+.main-box.expanded .grid-container {
+  grid-template-columns: repeat(3, 1fr); /* Adjusted for 3x3 grid */
+  grid-template-rows: repeat(3, 1fr); /* Adjusted for 3x3 grid */
+}
 .hover\:bg-sky-500:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(14 165 233 / var(--tw-bg-opacity));

@@ -57,8 +57,8 @@ const AppContext = /*#__PURE__*/ (0,react.createContext)();
 
 // EXTERNAL MODULE: ./src/components/reactCOIServiceWorker.tsx
 var reactCOIServiceWorker = __webpack_require__(3053);
-// EXTERNAL MODULE: ./src/pages/index.tsx + 4 modules
-var pages = __webpack_require__(3547);
+// EXTERNAL MODULE: ./src/pages/index.tsx + 5 modules
+var pages = __webpack_require__(4187);
 ;// CONCATENATED MODULE: ./src/pages/_app.tsx
 
 
@@ -358,7 +358,7 @@ function App(param) {
 
 /***/ }),
 
-/***/ 3547:
+/***/ 4187:
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1015,7 +1015,338 @@ const ImageAuthInfoComponent = ()=>{
 };
 /* harmony default export */ var components_ImageAuthInfoComponent = (ImageAuthInfoComponent);
 
+;// CONCATENATED MODULE: ./src/components/ExplainerComponent.js
+// import React, { useState } from 'react'
+// export default function ExplainerComponent() {
+//   const [isExpanded, setIsExpanded] = useState(false)
+//   const [clickedPixels, setClickedPixels] = useState({}) // Tracks which pixels are clicked
+//   const handleBoxClick = () => {
+//     setIsExpanded(!isExpanded)
+//   }
+//   const handlePixelClick = (index, event) => {
+//     event.stopPropagation() // Prevent the main box click event
+//     setClickedPixels((prevState) => ({
+//       ...prevState,
+//       [index]: !prevState[index],
+//     }))
+//   }
+//   return (
+//     <div
+//       className={`main-box ${isExpanded ? 'expanded' : ''}`}
+//       onClick={handleBoxClick}
+//     >
+//       {!isExpanded && <p>Click to expand</p>}
+//       {isExpanded && (
+//         <div className="grid-container">
+//           {[...Array(16)].map((_, index) => (
+//             <div
+//               key={index}
+//               className={`small-box ${clickedPixels[index] ? 'clicked' : ''}`}
+//               onClick={(e) => handlePixelClick(index, e)}
+//             >
+//               {clickedPixels[index] ? 'Proof' : `Pixel ${index + 1}`}
+//             </div>
+//           ))}
+//         </div>
+//       )}
+//     </div>
+//   )
+// }
+// import React, { useState, useEffect } from 'react'
+// export default function ExplainerComponent() {
+//   const totalPixels = 16
+//   const [isExpanded, setIsExpanded] = useState(false)
+//   const [clickedPixels, setClickedPixels] = useState({})
+//   const [allClicked, setAllClicked] = useState(false)
+//   const [verified, setVerified] = useState(false)
+//   useEffect(() => {
+//     if (
+//       Object.keys(clickedPixels).length === totalPixels &&
+//       Object.values(clickedPixels).every((val) => val)
+//     ) {
+//       setAllClicked(true)
+//     }
+//   }, [clickedPixels])
+//   const handleBoxClick = () => {
+//     setIsExpanded(!isExpanded)
+//   }
+//   const handlePixelClick = (index, event) => {
+//     event.stopPropagation()
+//     setClickedPixels((prevState) => ({
+//       ...prevState,
+//       [index]: !prevState[index],
+//     }))
+//   }
+//   const handleRecursionProofClick = () => {
+//     if (allClicked) {
+//       setVerified(true)
+//     }
+//   }
+//   return (
+//     <div className="explainer-container">
+//       <div
+//         className={`main-box ${isExpanded ? 'expanded' : ''} ${
+//           allClicked ? 'all-clicked' : ''
+//         }`}
+//         onClick={handleBoxClick}
+//       >
+//         {!isExpanded && <p>Click to expand</p>}
+//         {isExpanded && !allClicked && <p>Click each pixel</p>}
+//         {isExpanded && allClicked && !verified && (
+//           <p className="recursion-proof" onClick={handleRecursionProofClick}>
+//             Recursion Proof
+//           </p>
+//         )}
+//         {isExpanded && allClicked && verified && (
+//           <div className="verified">
+//             <p>Verified by Mina Blockchain</p>
+//             <span className="arrow"></span>
+//           </div>
+//         )}
+//         {isExpanded && (
+//           <div className="grid-container">
+//             {[...Array(totalPixels)].map((_, index) => (
+//               <div
+//                 key={index}
+//                 className={`small-box ${clickedPixels[index] ? 'clicked' : ''}`}
+//                 onClick={(e) => handlePixelClick(index, e)}
+//               >
+//                 {clickedPixels[index] ? 'Proof' : `Pixel ${index + 1}`}
+//               </div>
+//             ))}
+//           </div>
+//         )}
+//       </div>
+//     </div>
+//   )
+// }
+// import React, { useState, useEffect } from 'react'
+// export default function ExplainerComponent() {
+//   const totalPixels = 16
+//   const [isExpanded, setIsExpanded] = useState(false)
+//   const [clickedPixels, setClickedPixels] = useState({})
+//   const [allClicked, setAllClicked] = useState(false)
+//   useEffect(() => {
+//     if (
+//       Object.keys(clickedPixels).length === totalPixels &&
+//       Object.values(clickedPixels).every((val) => val)
+//     ) {
+//       setAllClicked(true)
+//       setTimeout(() => setAllClicked('verified'), 1000) // Automatically verify after 1 second
+//     }
+//   }, [clickedPixels])
+//   const handleBoxClick = () => {
+//     setIsExpanded(!isExpanded)
+//   }
+//   const handlePixelClick = (index, event) => {
+//     event.stopPropagation()
+//     setClickedPixels((prevState) => ({
+//       ...prevState,
+//       [index]: !prevState[index],
+//     }))
+//   }
+//   return (
+//     <div className="explainer-container">
+//       <div
+//         className={`main-box ${isExpanded ? 'expanded' : ''} ${
+//           allClicked ? 'all-clicked' : ''
+//         }`}
+//         onClick={handleBoxClick}
+//       >
+//         {!isExpanded && <p>Click to expand</p>}
+//         {isExpanded && allClicked === true && (
+//           <p className="recursion-proof">Recursion Proof</p>
+//         )}
+//         {isExpanded && allClicked === 'verified' && (
+//           <div className="verified">
+//             <p>Verified by Mina Blockchain</p>
+//             <span className="arrow"></span>
+//           </div>
+//         )}
+//         {isExpanded && !allClicked && (
+//           <div className="grid-container">
+//             {[...Array(totalPixels)].map((_, index) => (
+//               <div
+//                 key={index}
+//                 className={`small-box ${clickedPixels[index] ? 'clicked' : ''}`}
+//                 onClick={(e) => handlePixelClick(index, e)}
+//               >
+//                 {clickedPixels[index] ? 'Proof' : `Pixel ${index + 1}`}
+//               </div>
+//             ))}
+//           </div>
+//         )}
+//       </div>
+//     </div>
+//   )
+// }
+// import React, { useState, useEffect } from 'react'
+// export default function ExplainerComponent() {
+//   const totalPixels = 9
+//   const [isExpanded, setIsExpanded] = useState(false)
+//   const [clickedPixels, setClickedPixels] = useState({})
+//   const [allClicked, setAllClicked] = useState(false)
+//   const [userPrompt, setUserPrompt] = useState(
+//     'Click to expand and start the verification process.',
+//   )
+//   useEffect(() => {
+//     if (
+//       Object.keys(clickedPixels).length === totalPixels &&
+//       Object.values(clickedPixels).every((val) => val)
+//     ) {
+//       setAllClicked(true)
+//       setUserPrompt('Verifying...')
+//       setTimeout(() => {
+//         setAllClicked('verified')
+//         setUserPrompt('Verified by Mina Blockchain')
+//       }, 1000)
+//     }
+//   }, [clickedPixels])
+//   useEffect(() => {
+//     if (allClicked === 'verified') {
+//       setTimeout(resetComponent, 2000) // Reset after 2 seconds
+//     }
+//   }, [allClicked])
+//   const resetComponent = () => {
+//     setIsExpanded(false)
+//     setClickedPixels({})
+//     setAllClicked(false)
+//     setUserPrompt('Click to expand and start the verification process.')
+//   }
+//   const handleBoxClick = () => {
+//     if (!isExpanded) setIsExpanded(true)
+//   }
+//   const handlePixelClick = (index, event) => {
+//     event.stopPropagation()
+//     setClickedPixels((prevState) => ({
+//       ...prevState,
+//       [index]: !prevState[index],
+//     }))
+//   }
+//   return (
+//     <div className="explainer-container">
+//       <p className="user-prompt">{userPrompt}</p>
+//       <div
+//         className={`main-box ${isExpanded ? 'expanded' : ''} ${
+//           allClicked ? 'all-clicked' : ''
+//         }`}
+//         onClick={handleBoxClick}
+//       >
+//         {isExpanded && allClicked === true && (
+//           <p className="recursion-proof">Recursion Proof</p>
+//         )}
+//         {isExpanded && allClicked === 'verified' && (
+//           <div className="verified">
+//             <p>Verified by Mina Blockchain</p>
+//             <span className="arrow"></span>
+//           </div>
+//         )}
+//         {isExpanded && !allClicked && (
+//           <div className="grid-container">
+//             {[...Array(totalPixels)].map((_, index) => (
+//               <div
+//                 key={index}
+//                 className={`small-box ${clickedPixels[index] ? 'clicked' : ''}`}
+//                 onClick={(e) => handlePixelClick(index, e)}
+//               >
+//                 {clickedPixels[index] ? 'Proof' : `Pixel ${index + 1}`}
+//               </div>
+//             ))}
+//           </div>
+//         )}
+//       </div>
+//     </div>
+//   )
+// }
+
+
+function ExplainerComponent() {
+    const totalPixels = 9 // Updated for a 3x3 grid
+    ;
+    const [isExpanded, setIsExpanded] = (0,react.useState)(false);
+    const [clickedPixels, setClickedPixels] = (0,react.useState)({});
+    const [allClicked, setAllClicked] = (0,react.useState)(false);
+    const [userPrompt, setUserPrompt] = (0,react.useState)("Click to manipulate image");
+    (0,react.useEffect)(()=>{
+        if (Object.keys(clickedPixels).length === totalPixels && Object.values(clickedPixels).every((val)=>val)) {
+            setAllClicked(true);
+            setUserPrompt("Verifying...");
+            setTimeout(()=>{
+                setAllClicked("verified");
+                setUserPrompt("Verified by Mina Blockchain");
+            }, 3000);
+        }
+    }, [
+        clickedPixels
+    ]);
+    (0,react.useEffect)(()=>{
+        if (allClicked === "verified") {
+            setTimeout(resetComponent, 3000) // Reset after 2 seconds
+            ;
+        }
+    }, [
+        allClicked
+    ]);
+    const resetComponent = ()=>{
+        setIsExpanded(false);
+        setClickedPixels({});
+        setAllClicked(false);
+        setUserPrompt("Click each pixel to generate a proof.");
+    };
+    const handleBoxClick = ()=>{
+        if (!isExpanded) setIsExpanded(true);
+    };
+    const handlePixelClick = (index, event)=>{
+        event.stopPropagation();
+        setClickedPixels((prevState)=>({
+                ...prevState,
+                [index]: !prevState[index]
+            }));
+    };
+    return /*#__PURE__*/ (0,jsx_runtime.jsxs)("div", {
+        className: "explainer-container",
+        children: [
+            /*#__PURE__*/ (0,jsx_runtime.jsx)("p", {
+                className: "user-prompt",
+                children: userPrompt
+            }),
+            /*#__PURE__*/ (0,jsx_runtime.jsxs)("div", {
+                className: "main-box ".concat(isExpanded ? "expanded" : "", " ").concat(allClicked ? "all-clicked" : ""),
+                onClick: handleBoxClick,
+                children: [
+                    isExpanded && allClicked === true && /*#__PURE__*/ (0,jsx_runtime.jsx)("p", {
+                        className: "recursion-proof",
+                        children: "Recursion Proof"
+                    }),
+                    isExpanded && allClicked === "verified" && /*#__PURE__*/ (0,jsx_runtime.jsxs)("div", {
+                        className: "verified",
+                        children: [
+                            /*#__PURE__*/ (0,jsx_runtime.jsx)("p", {
+                                children: "Verified by Mina Blockchain"
+                            }),
+                            /*#__PURE__*/ (0,jsx_runtime.jsx)("span", {
+                                className: "arrow"
+                            })
+                        ]
+                    }),
+                    isExpanded && !allClicked && /*#__PURE__*/ (0,jsx_runtime.jsx)("div", {
+                        className: "grid-container",
+                        children: [
+                            ...Array(totalPixels)
+                        ].map((_, index)=>/*#__PURE__*/ (0,jsx_runtime.jsx)("div", {
+                                className: "small-box ".concat(clickedPixels[index] ? "clicked" : ""),
+                                onClick: (e)=>handlePixelClick(index, e),
+                                children: clickedPixels[index] ? "Proof" : "Pixel ".concat(index + 1)
+                            }, index))
+                    })
+                ]
+            })
+        ]
+    });
+}
+
 ;// CONCATENATED MODULE: ./src/pages/index.tsx
+
 
 
 
@@ -1258,6 +1589,7 @@ function Home() {
                     children: "zk IMAGE"
                 })
             }),
+            /*#__PURE__*/ (0,jsx_runtime.jsx)(ExplainerComponent, {}),
             /*#__PURE__*/ (0,jsx_runtime.jsx)(components_DomainModelExplainer, {}),
             /*#__PURE__*/ (0,jsx_runtime.jsx)(components_ImageAuthProcessVisualizer, {}),
             /*#__PURE__*/ (0,jsx_runtime.jsx)(components_ImageAuthInfoComponent, {})
