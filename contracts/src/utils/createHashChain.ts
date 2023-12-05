@@ -1,5 +1,5 @@
 import { Poseidon } from 'o1js';
-import { PixelArrayClass1000 } from '../classes/PixelArrayClass1000.js';
+import { PixelArrayClass1000 } from '../classes/PixelArrayClass.js';
 
 export default function createHashChain(
   arrayOfPixelArrays: PixelArrayClass1000[]

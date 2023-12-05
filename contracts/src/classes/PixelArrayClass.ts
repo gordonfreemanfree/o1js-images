@@ -1,28 +1,19 @@
 import { Field, Struct, Provable, Bool } from 'o1js';
+import { MaskClass } from './MaskClass';
 
-const PIXELSNUMBER = 100;
-const MASKNUMBER = PIXELSNUMBER / 4;
+// tied to 94 pixels := 24x24 image
+const PIXELSNUMBER = 96;
 
-export class MaskClass extends Struct({
-  maskArray: Provable.Array(Bool, MASKNUMBER),
-}) {
-  static from(bitmap: number[]) {
-    return new MaskClass({
-      maskArray: bitmap.map((number) => Field(number).equals(Field(1))),
-    });
-  }
-}
-
-export class PixelArrayClass1000 extends Struct({
+export class PixelArrayClass extends Struct({
   pixelArray: Provable.Array(Field, PIXELSNUMBER),
 }) {
   static from(bitmap: number[]) {
-    return new PixelArrayClass1000({
+    return new PixelArrayClass({
       pixelArray: bitmap.map((number) => Field(number)),
     });
   }
 
-  public blackOutPixels(mask: MaskClass): PixelArrayClass1000 {
+  public blackOutPixels(mask: MaskClass): PixelArrayClass {
     let blackedOutPixelArray: Array<Field> = new Array<Field>(PIXELSNUMBER);
     // let bool = mask.equals(0);
     let maskIndex = 0;
@@ -57,7 +48,6 @@ export class PixelArrayClass1000 extends Struct({
       );
     }
 
-    return new PixelArrayClass1000({ pixelArray: blackedOutPixelArray });
+    return new PixelArrayClass({ pixelArray: blackedOutPixelArray });
   }
 }
-// works
