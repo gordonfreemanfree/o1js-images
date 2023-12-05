@@ -13,7 +13,7 @@ import {
   MaskClass,
 } from '../classes/PixelArrayClass1000.js';
 import { imageData } from '../../data/pixelData100x100.js';
-import { RecursionProofSystem } from '../recursion/recursion.js';
+import { RecursionProofSystem } from '../recursion.js';
 
 describe('proxy-recursion-test', () => {
   async function runTests() {

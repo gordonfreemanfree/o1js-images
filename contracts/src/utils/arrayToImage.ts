@@ -2,6 +2,21 @@
 
 import { createCanvas } from 'canvas';
 import fs from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+import { readFileSync } from 'fs';
+
+// Convert the URL to a file path
+const __filename = fileURLToPath(import.meta.url);
+
+// Get the directory name of the current module
+const __dirname = dirname(__filename);
+
+const jsonPath = join(__dirname, '../../data/circle.json');
+const jsonString = readFileSync(jsonPath, 'utf8');
+const circle = JSON.parse(jsonString);
+// import circle from '../../data/circle.json' assert { type: 'json' };
+// const circle = require('../../data/circle.json');
 
 export default function arrayToPNG(
   pixelArray: number[] | Uint32Array,
@@ -28,3 +43,10 @@ export default function arrayToPNG(
 
   console.log('Image saved as' + ' ' + name + '.png');
 }
+
+arrayToPNG(
+  circle.pixelData,
+  circle.dimensions.width,
+  circle.dimensions.height,
+  'circle2'
+);

@@ -14,7 +14,7 @@ import {
 } from '../classes/PixelArrayClass1000.js';
 import fs from 'fs/promises';
 import { imageData } from '../../data/pixelData100x100.js';
-import { RecursionProofSystem } from './recursion.js';
+import { RecursionProofSystem } from '../recursion.js';
 // load Data
 // async function loadJSON() {
 //   const dataText = await fs.readFile('../../../data/pixelData100x100.json', {

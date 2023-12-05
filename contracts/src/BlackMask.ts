@@ -11,7 +11,7 @@ import {
   ZkProgram,
   Experimental,
 } from 'o1js';
-import { RecursionProofSystem } from './recursion/recursion.js';
+import { RecursionProofSystem } from './recursion.js';
 
 export { BlackMask, BlackProof };
 

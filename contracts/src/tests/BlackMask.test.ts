@@ -12,7 +12,7 @@ import {
   loopUntilAccountExists,
   getFriendlyDateTime,
 } from '../utils/testHelper.js';
-import { RecursionProofSystem } from '../recursion/recursion.js';
+import { RecursionProofSystem } from '../recursion.js';
 import { BlackMask } from '../BlackMask.js';
 import { saveVerificationKey } from '../utils/generateVerificationKey.js';
 import {

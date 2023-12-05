@@ -16,8 +16,11 @@ export default class ZkappWorkerClient {
   loadContract() {
     return this._call('loadContract', {})
   }
-  compileRecursion() {
-    return this._call('compileRecursion', {})
+  loadRecursion() {
+    return this._call('loadRecursion', {})
+  }
+  loadBlackmask() {
+    return this._call('loadBlackmask', {})
   }
 
   compileContract() {
@@ -40,15 +43,20 @@ export default class ZkappWorkerClient {
       publicKey58: publicKey.toBase58(),
     })
   }
+  initBlackMask(publicKey: PublicKey) {
+    return this._call('initBlackMask', {
+      publicKey58: publicKey.toBase58(),
+    })
+  }
 
   async getNum(): Promise<Field> {
     const result = await this._call('getNum', {})
     return Field.fromJSON(JSON.parse(result as string))
   }
 
-  // createUpdateTransaction() {
-  //   return this._call('createUpdateTransaction', {})
-  // }
+  createUpdateTransaction() {
+    return this._call('createUpdateTransaction', {})
+  }
 
   proveUpdateTransaction() {
     return this._call('proveUpdateTransaction', {})
