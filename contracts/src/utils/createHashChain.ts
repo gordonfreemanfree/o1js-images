@@ -1,9 +1,7 @@
 import { Poseidon } from 'o1js';
-import { PixelArrayClass1000 } from '../classes/PixelArrayClass.js';
+import { PixelArrayClass } from '../classes/PixelArrayClass.js';
 
-export default function createHashChain(
-  arrayOfPixelArrays: PixelArrayClass1000[]
-) {
+export default function createHashChain(arrayOfPixelArrays: PixelArrayClass[]) {
   let hashChain;
 
   // Start the chain with the hash of the first array

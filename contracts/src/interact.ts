@@ -14,8 +14,8 @@
  */
 import fs from 'fs/promises';
 import { AccountUpdate, Mina, PrivateKey } from 'o1js';
-import { BlackMask } from './BlackMask.js';
-import { RecursionProofSystem } from './pixelRecursion.js';
+import { BlackMask } from './contracts/BlackMask.js';
+import { RecursionProofSystem } from './recursion/pixelRecursion.js';
 // check command line arg
 let deployAlias = process.argv[2];
 if (!deployAlias)
