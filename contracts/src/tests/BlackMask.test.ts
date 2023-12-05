@@ -12,13 +12,10 @@ import {
   loopUntilAccountExists,
   getFriendlyDateTime,
 } from '../utils/testHelper.js';
-import { RecursionProofSystem } from '../recursion/recursion.js';
+import { RecursionProofSystem } from '../pixelRecursion.js';
 import { BlackMask } from '../BlackMask.js';
 import { saveVerificationKey } from '../utils/generateVerificationKey.js';
-import {
-  PixelArrayClass1000,
-  MaskClass,
-} from '../classes/PixelArrayClass1000.js';
+import { PixelArrayClass1000, MaskClass } from '../classes/PixelArrayClass.js';
 
 import { imageData } from '../../data/pixelData100x100.js';
 import createHashChain from '../utils/createHashChain.js';

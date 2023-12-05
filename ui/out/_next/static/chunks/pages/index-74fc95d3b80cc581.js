@@ -7,7 +7,7 @@
     (window.__NEXT_P = window.__NEXT_P || []).push([
       "/",
       function () {
-        return __webpack_require__(3547);
+        return __webpack_require__(4187);
       }
     ]);
     if(false) {}

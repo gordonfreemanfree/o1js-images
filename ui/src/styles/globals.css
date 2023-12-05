@@ -131,7 +131,7 @@ h2 {
 .explainer-container {
   display: flex;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
   height: 100vh; /* Adjust as needed */
 }
 .main-box.all-clicked {
@@ -181,11 +181,36 @@ h2 {
 }
 .user-prompt {
   text-align: center;
-  margin-bottom: 20px;
-  font-size: 1.5rem; /* Increased size */
-  color: var(--text-color);
+  margin-bottom: 5px;
+  font-size: 1.5rem;
 }
 .main-box.expanded .grid-container {
-  grid-template-columns: repeat(3, 1fr); /* Adjusted for 3x3 grid */
+  grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr); /* Adjusted for 3x3 grid */
+}
+.header-title {
+  text-align: center;
+  font-size: 2rem;
+
+  color: var(--primary-blue);
+}
+
+.mina-explanation {
+  max-width: 70%;
+  max-height: 400px; /* Set a maximum height */
+  overflow-y: auto; /* Enable vertical scrolling for overflow content */
+  margin: 0 auto; /* Center the box */
+  padding: 15px; /* Adjust padding */
+  background-color: var(--background-light);
+  border-radius: var(--rounded-lg);
+  box-shadow: var(--shadow-lg);
+  box-sizing: border-box;
+}
+
+.mina-explanation ul {
+  padding-left: 15px;
+}
+
+.mina-explanation li {
+  margin-bottom: 5px;
 }

@@ -6,11 +6,10 @@ import {
   Bool,
   Poseidon,
   ZkProgram,
+  Struct,
 } from 'o1js';
-import {
-  PixelArrayClass1000,
-  MaskClass,
-} from '../classes/PixelArrayClass1000.js';
+import { PixelArrayClass } from './classes/PixelArrayClass.js';
+import { MaskClass } from './classes/MaskClass.js';
 
 export const RecursionProofSystem = ZkProgram({
   name: 'RecursionProofSystem',
@@ -18,8 +17,8 @@ export const RecursionProofSystem = ZkProgram({
 
   methods: {
     blackPixel_first: {
-      privateInputs: [MaskClass, PixelArrayClass1000],
-      method(hash: Field, mask: MaskClass, privatePixel: PixelArrayClass1000) {
+      privateInputs: [MaskClass, PixelArrayClass],
+      method(hash: Field, mask: MaskClass, privatePixel: PixelArrayClass) {
         // checking identity hash
         hash.assertEquals(Poseidon.hash(privatePixel.pixelArray));
         let pixelBlacked = privatePixel.blackOutPixels(mask);
@@ -65,11 +64,11 @@ export const RecursionProofSystem = ZkProgram({
       },
     },
     blackPixel_second: {
-      privateInputs: [MaskClass, PixelArrayClass1000, SelfProof],
+      privateInputs: [MaskClass, PixelArrayClass, SelfProof],
       method(
         hash: Field,
         mask: MaskClass,
-        privatePixel: PixelArrayClass1000,
+        privatePixel: PixelArrayClass,
         oldProof: SelfProof<Field, Array<Field>>
       ) {
         oldProof.verify();
@@ -136,3 +135,43 @@ export const RecursionProofSystem = ZkProgram({
     // },
   },
 });
+
+// ------------------------------
+// ------------------------------
+// just a test for compiling in ui
+
+// class MaskClass extends Struct({
+//   maskArray: Provable.Array(Bool, 4),
+// }) {}
+
+// class PixelArrayClass extends Struct({
+//   pixelArray: Provable.Array(Field, 4),
+// }) {}
+
+// export const RecursionProofSystem = ZkProgram({
+//   name: 'RecursionProofSystem',
+//   publicInput: Field,
+
+//   methods: {
+//     blackPixel_first: {
+//       privateInputs: [MaskClass, PixelArrayClass],
+//       method(hash: Field, mask: MaskClass, privatePixel: PixelArrayClass) {
+//         // checking identity hash
+//         mask.maskArray[0].assertEquals(Bool(true));
+//       },
+//     },
+//     blackPixel_second: {
+//       privateInputs: [MaskClass, PixelArrayClass, SelfProof],
+//       method(
+//         hash: Field,
+//         mask: MaskClass,
+//         privatePixel: PixelArrayClass,
+//         oldProof: SelfProof<Field, Array<Field>>
+//       ) {
+//         oldProof.verify();
+//         mask.maskArray[0].assertEquals(Bool(true));
+//       },
+//     },
+//   },
+// });
+// export class BlackProof extends ZkProgram.Proof(RecursionProofSystem) {}

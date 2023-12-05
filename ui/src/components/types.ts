@@ -1,5 +1,5 @@
 import { PublicKey, Field } from 'o1js'
-import ZkappWorkerClient from './zkappWorkerClient'
+import ZkappWorkerClient from '../pages/zkappWorkerClient'
 
 export type SetupStateType = {
   zkappWorkerClient: ZkappWorkerClient | null

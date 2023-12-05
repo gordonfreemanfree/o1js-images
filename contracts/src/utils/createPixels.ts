@@ -1,3 +1,5 @@
+// this creates an random image
+
 import { createCanvas } from 'canvas';
 import { writeFileSync } from 'fs';
 

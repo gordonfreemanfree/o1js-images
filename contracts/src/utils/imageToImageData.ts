@@ -18,9 +18,9 @@ interface CostumImageData {
   pixelData: number[];
 }
 
-const IMGPATH = '../../../assets/randomImage20x20.png';
-const WIDTH = 20;
-const HEIGHT = 20;
+const IMGPATH = '../../../data/circle.png';
+const WIDTH = 24;
+const HEIGHT = 24;
 
 export default async function convertAndSaveImage() {
   // Load the JPEG image
@@ -53,7 +53,7 @@ export default async function convertAndSaveImage() {
 
   // Save the combined data as a JavaScript object in a .js file
   const jsData = `${JSON.stringify(imageDataObject, null, 2)}`;
-  fs.writeFileSync(`../../../assets/pixelData${WIDTH}x${HEIGHT}.json`, jsData);
+  fs.writeFileSync(`../../../data/pixelData${WIDTH}x${HEIGHT}.json`, jsData);
 
   console.log('Pixel data and dimensions saved to pixelData.js');
 }

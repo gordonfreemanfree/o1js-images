@@ -8,12 +8,9 @@ import {
   Proof,
   ZkProgram,
 } from 'o1js';
-import {
-  PixelArrayClass1000,
-  MaskClass,
-} from '../classes/PixelArrayClass1000.js';
+import { PixelArrayClass1000, MaskClass } from '../classes/PixelArrayClass.js';
 import { imageData } from '../../data/pixelData100x100.js';
-import { RecursionProofSystem } from '../recursion/recursion.js';
+import { RecursionProofSystem } from '../pixelRecursion.js';
 
 describe('proxy-recursion-test', () => {
   async function runTests() {
