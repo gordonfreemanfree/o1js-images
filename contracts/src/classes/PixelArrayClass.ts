@@ -29,17 +29,17 @@ export class PixelArrayClass extends Struct({
       blackedOutPixelArray[i] = Provable.if(
         bool,
         this.pixelArray[i],
-        Field.from(255)
+        Field.from(0)
       );
       blackedOutPixelArray[i + 1] = Provable.if(
         bool,
         this.pixelArray[i + 1],
-        Field.from(255)
+        Field.from(0)
       );
       blackedOutPixelArray[i + 2] = Provable.if(
         bool,
         this.pixelArray[i + 2],
-        Field.from(255)
+        Field.from(0)
       );
       blackedOutPixelArray[i + 3] = Provable.if(
         bool,

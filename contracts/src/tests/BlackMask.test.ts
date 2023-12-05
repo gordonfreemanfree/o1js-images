@@ -12,14 +12,15 @@ import {
   loopUntilAccountExists,
   getFriendlyDateTime,
 } from '../utils/testHelper.js';
-import { RecursionProofSystem } from '../pixelRecursion.js';
-import { BlackMask } from '../BlackMask.js';
+import { RecursionProofSystem } from '../recursion/pixelRecursion.js';
+import { BlackMask } from '../contracts/BlackMask.js';
 import { saveVerificationKey } from '../utils/generateVerificationKey.js';
-import { PixelArrayClass1000, MaskClass } from '../classes/PixelArrayClass.js';
+import { PixelArrayClass } from '../classes/PixelArrayClass.js';
+import { MaskClass } from '../classes/MaskClass.js';
 
 import { imageData } from '../../data/pixelData100x100.js';
 import createHashChain from '../utils/createHashChain.js';
-import { BlackProof } from '../BlackMask.js';
+import { BlackProof } from '../contracts/BlackMask.js';
 console.log('process.env.TEST_ON_BERKELEY', process.env.TEST_ON_BERKELEY);
 const isBerkeley = process.env.TEST_ON_BERKELEY == 'true' ? true : false;
 
@@ -240,13 +241,11 @@ describe('proxy-recursion-test', () => {
       let maskBool = MaskClass.from(mask);
 
       // Dummy Dataset
-      let pixelProof1 = PixelArrayClass1000.from(
-        imageData.pixelData.slice(0, 100)
-      );
-      let pixelProof2 = PixelArrayClass1000.from(
+      let pixelProof1 = PixelArrayClass.from(imageData.pixelData.slice(0, 100));
+      let pixelProof2 = PixelArrayClass.from(
         imageData.pixelData.slice(100, 200)
       );
-      let pixelProof3 = PixelArrayClass1000.from(
+      let pixelProof3 = PixelArrayClass.from(
         imageData.pixelData.slice(200, 300)
       );
       let dummyArray = [pixelProof1, pixelProof2, pixelProof3];
